@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-# celestial-calc
-celestial location calculation tool
-=======
 # Celestial Calc 🔭
 
 An astronomical position calculator for telescope control systems — computing the **altitude and azimuth** of celestial objects from any date, time, and observer location. Implemented in both **C++** and **JavaScript** using identical algorithms.
@@ -79,4 +75,3 @@ double toJulianDay(int year, int month, int day,
 
 University of Hawaiʻi at Hilo — Computer Science (Astronomy Minor)  
 Student Assistant, [PISCES](https://www.pisces.hawaii.edu/) — Pacific International Space Center for Exploration Systems
->>>>>>> fddc6dc6a9bd0aed3357d7b6fd69b2fd76318219
