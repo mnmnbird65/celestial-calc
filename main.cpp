@@ -2,21 +2,12 @@
 #include <iomanip>
 #include <cmath>
 
-// =====================================================
 // Celestial Calc — Step 1: Julian Day Calculation
-// =====================================================
-// Converts a Gregorian calendar date/time (UTC) to
-// Julian Day Number (JD).
+// 
+// Converts a Gregorian calendar date/time (UTC) to Julian Day Number (JD)
 //
-// Julian Day = total days elapsed since
-//   January 1, 4713 BC at 12:00 UTC.
-// This is the universal time reference for all
-// astronomical calculations (sidereal time,
-// coordinate transforms, planetary positions).
-//
-// Verification: 2000-01-01 12:00:00 UTC → JD 2451545.0
-//               (J2000.0 epoch)
-// =====================================================
+// Julian Day = total days elapsed since January 1, 4713 BC at 12:00 UTC
+// Verification: 2000-01-01 12:00:00 UTC → JD 2451545.0 (J2000.0 epoch)
 
 /**
  * Convert Gregorian date/time (UTC) to Julian Day.
@@ -56,9 +47,13 @@ int main() {
     std::cout << (std::abs(jd_j2000 - 2451545.0) < 1e-9
                   ? "[OK]" : "[FAIL]") << "\n\n";
 
-    // --- Interactive input ---
-    int    y, mo, d, h, mi;
-    double s;
+    // input
+    int y; // year
+    int mo; // month
+    int d; // day
+    int h; // hour 
+    int mi; // minute
+    double s; // second
 
     std::cout << "Enter date and time (UTC):\n";
     std::cout << "  Year   : "; std::cin >> y;
