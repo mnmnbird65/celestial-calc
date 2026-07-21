@@ -14,9 +14,9 @@
     --deep:      #0e1525;
     --card:      #111827;
     --border:    #1e2d4a;
-    --gold:      #f5d840;   /* sodium-D line — the yellow of stars through an eyepiece */
+    --gold:      #f5d840;
     --gold-dim:  #a8941e;
-    --star:      #c8d8ff;   /* blue-white starlight */
+    --star:      #c8d8ff;
     --mist:      #6b7fa8;
     --ok:        #6ddba0;
   }
@@ -31,7 +31,6 @@
     overflow-x: hidden;
   }
 
-  /* ---- Starfield canvas (signature element) ---- */
   #starfield {
     position: fixed; inset: 0;
     z-index: 0; pointer-events: none;
@@ -49,12 +48,6 @@
     padding: 4rem 0 2.5rem;
     border-bottom: 1px solid var(--border);
   }
-  .eyebrow {
-    font-family: "IBM Plex Mono", monospace;
-    font-size: .72rem; letter-spacing: .22em;
-    color: var(--gold); text-transform: uppercase;
-    margin-bottom: 1rem;
-  }
   h1 {
     font-size: clamp(2rem, 6vw, 3rem);
     font-weight: 700;
@@ -62,30 +55,34 @@
     line-height: 1.1;
     margin-bottom: .6rem;
   }
-  h1 span { color: var(--gold); }
   .tagline {
     color: var(--mist);
     max-width: 36em;
     font-size: .95rem;
   }
 
-  /* ---- Live JD readout (telescope instrument panel feel) ---- */
-  .readout {
+  /* ---- Live readout panels ---- */
+  .readout-grid {
     margin: 2.5rem 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: .75rem;
+  }
+  @media (max-width: 500px) { .readout-grid { grid-template-columns: 1fr; } }
+
+  .readout {
     background: var(--deep);
     border: 1px solid var(--border);
     border-left: 2px solid var(--gold);
     border-radius: 8px;
-    padding: 1.6rem 1.5rem;
-    display: flex;
-    flex-direction: column;
-    gap: .4rem;
+    padding: 1.25rem 1.25rem 1.1rem;
   }
   .readout-label {
     font-family: "IBM Plex Mono", monospace;
-    font-size: .7rem; letter-spacing: .18em;
+    font-size: .68rem; letter-spacing: .16em;
     color: var(--mist); text-transform: uppercase;
-    display: flex; align-items: center; gap: .55rem;
+    display: flex; align-items: center; gap: .5rem;
+    margin-bottom: .4rem;
   }
   .blink {
     width: 6px; height: 6px; border-radius: 50%;
@@ -97,17 +94,15 @@
   @media (prefers-reduced-motion: reduce) { .blink { animation: none; } }
   .readout-value {
     font-family: "IBM Plex Mono", monospace;
-    font-size: clamp(1.7rem, 6vw, 2.6rem);
-    font-weight: 500;
-    color: var(--gold);
-    letter-spacing: .04em;
+    font-size: clamp(1.1rem, 3.5vw, 1.5rem);
+    font-weight: 500; color: var(--gold);
+    letter-spacing: .03em;
     font-variant-numeric: tabular-nums;
-    line-height: 1;
+    line-height: 1.2;
   }
   .readout-sub {
     font-family: "IBM Plex Mono", monospace;
-    font-size: .75rem; color: var(--mist);
-    margin-top: .25rem;
+    font-size: .7rem; color: var(--mist); margin-top: .3rem;
   }
 
   /* ---- Sections ---- */
@@ -127,7 +122,28 @@
     padding: .15em .5em; border-radius: 3px;
   }
 
-  /* ---- Calculator ---- */
+  /* ---- Tabs ---- */
+  .tabs {
+    display: flex; gap: .5rem; margin-bottom: 1rem;
+  }
+  .tab {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: .75rem; letter-spacing: .1em;
+    padding: .35em .9em; border-radius: 4px;
+    border: 1px solid var(--border);
+    background: transparent; color: var(--mist);
+    cursor: pointer; transition: all .15s;
+    text-transform: uppercase;
+  }
+  .tab:hover { border-color: var(--gold-dim); color: var(--star); }
+  .tab.active {
+    background: var(--gold); color: var(--void);
+    border-color: var(--gold); font-weight: 500;
+  }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  /* ---- Calculator card ---- */
   .calc {
     background: var(--card);
     border: 1px solid var(--border);
@@ -140,6 +156,9 @@
     gap: .9rem;
   }
   @media (max-width: 460px) { .grid { grid-template-columns: 1fr; } }
+  .grid.three { grid-template-columns: 1fr 1fr 1fr; }
+  @media (max-width: 560px) { .grid.three { grid-template-columns: 1fr 1fr; } }
+
   label {
     display: block;
     font-size: .75rem; letter-spacing: .08em;
@@ -165,7 +184,11 @@
   input[type="time"]::-webkit-calendar-picker-indicator {
     filter: invert(.6) sepia(1) hue-rotate(10deg) saturate(3);
   }
-  button {
+  .field-hint {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: .68rem; color: var(--mist); margin-top: .25rem;
+  }
+  button.primary {
     margin-top: 1.1rem;
     background: var(--gold);
     color: var(--void);
@@ -177,7 +200,7 @@
     cursor: pointer;
     transition: opacity .15s;
   }
-  button:hover { opacity: .85; }
+  button.primary:hover { opacity: .85; }
 
   .result {
     margin-top: 1.1rem;
@@ -189,20 +212,27 @@
     display: none;
   }
   .result.show { display: block; }
-  .result-jd {
-    font-family: "IBM Plex Mono", monospace;
-    font-size: 1.35rem;
-    color: var(--gold);
-    font-variant-numeric: tabular-nums;
+  .result-rows { display: flex; flex-direction: column; gap: .45rem; }
+  .result-row {
+    display: flex; justify-content: space-between;
+    align-items: baseline; gap: 1rem;
   }
-  .result-utc {
+  .result-key {
     font-family: "IBM Plex Mono", monospace;
-    font-size: .78rem; color: var(--mist);
-    margin-top: .35rem;
+    font-size: .72rem; color: var(--mist);
+    text-transform: uppercase; letter-spacing: .08em;
+    white-space: nowrap;
+  }
+  .result-val {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 1.1rem; color: var(--gold);
+    font-variant-numeric: tabular-nums; text-align: right;
   }
   .result-ok {
     font-size: .78rem; color: var(--ok);
-    margin-top: .4rem; display: none;
+    margin-top: .6rem; padding-top: .6rem;
+    border-top: 1px solid var(--border);
+    display: none;
   }
   .result-ok.show { display: block; }
 
@@ -210,7 +240,9 @@
   .explainer {
     color: var(--mist); font-size: .9rem;
     max-width: 38em; line-height: 1.75;
+    margin-bottom: 1rem;
   }
+  .explainer:last-child { margin-bottom: 0; }
   .explainer strong { color: var(--star); font-weight: 500; }
   .explainer code {
     font-family: "IBM Plex Mono", monospace;
@@ -219,26 +251,21 @@
     font-size: .83em; color: var(--gold);
   }
 
-  /* ---- Roadmap ---- */
-  .roadmap { list-style: none; }
-  .roadmap li {
-    display: flex; gap: 1rem; align-items: flex-start;
-    padding: .85rem 0;
-    border-bottom: 1px solid var(--border);
-    font-size: .9rem;
+  /* ---- Pipeline ---- */
+  .pipeline {
+    display: flex; align-items: center;
+    flex-wrap: wrap; gap: 0;
+    margin: 1.25rem 0;
   }
-  .roadmap li:last-child { border-bottom: none; }
-  .roadmap .badge {
+  .pipe-step {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 6px; padding: .5rem .85rem;
     font-family: "IBM Plex Mono", monospace;
-    font-size: .65rem; letter-spacing: .1em;
-    flex-shrink: 0; padding-top: .2rem;
-    width: 3.5rem; text-align: right;
+    font-size: .78rem; color: var(--mist);
   }
-  .done .badge { color: var(--ok); }
-  .todo .badge { color: var(--border); }
-  .done { color: var(--star); }
-  .todo { color: var(--mist); }
-  .roadmap b { font-weight: 600; }
+  .pipe-step.done  { border-color: var(--gold-dim); color: var(--gold); }
+  .pipe-step.active { background: var(--gold); color: var(--void); font-weight: 500; }
+  .pipe-arrow { color: var(--border); padding: 0 .4rem; font-size: .9rem; }
 
   /* ---- Footer ---- */
   footer {
@@ -255,52 +282,128 @@
 
 <main>
   <header>
-    <h1>Celestial Calculation<br></h1>
+    <h1>Celestial Calculation</h1>
     <p class="tagline">A time period converter for astronomical applications, allowing researchers to immediately change calendar dates to Julian Day numbers.</p>
   </header>
 
-  <!-- Live JD readout -->
-  <div class="readout" aria-live="polite" aria-label="Current Julian Day">
-    <p class="readout-label">
-      <span class="blink" aria-hidden="true"></span>
-      Current Julian Day &nbsp;(UTC · live)
-    </p>
-    <p class="readout-value" id="liveJd">—</p>
-    <p class="readout-sub">Days elapsed since 4713 BC Jan 1, 12:00 UTC &mdash; the universal time reference for all astronomical calculations.</p>
+  <!-- Live readout: JD + LST -->
+  <div class="readout-grid">
+    <div class="readout" aria-live="polite">
+      <p class="readout-label"><span class="blink" aria-hidden="true"></span>Julian Day (UTC · live)</p>
+      <p class="readout-value" id="liveJd">—</p>
+      <p class="readout-sub">Days elapsed since 4713 BC Jan 1, 12:00 UTC</p>
+    </div>
+    <div class="readout" aria-live="polite">
+      <p class="readout-label"><span class="blink" aria-hidden="true"></span>LST · Hilo, HI (live)</p>
+      <p class="readout-value" id="liveLst">—</p>
+      <p class="readout-sub">Right ascension on the meridian now</p>
+    </div>
   </div>
 
-  <!-- Calculator -->
+  <!-- Calculators -->
   <section>
-    <h2><span class="tag">Calc</span> Date &rarr; Julian Day</h2>
-    <div class="calc">
-      <div class="grid">
-        <div>
-          <label for="date">Date</label>
-          <input type="date" id="date" value="2000-01-01">
+    <h2><span class="tag">Calc</span> Calculators</h2>
+    <div class="tabs" role="tablist">
+      <button class="tab active" role="tab" data-tab="jd">Julian Day</button>
+      <button class="tab" role="tab" data-tab="lst">Sidereal Time</button>
+    </div>
+
+    <!-- Tab: Julian Day -->
+    <div class="tab-panel active" id="tab-jd">
+      <div class="calc">
+        <div class="grid">
+          <div>
+            <label for="jd-date">Date</label>
+            <input type="date" id="jd-date" value="2000-01-01">
+          </div>
+          <div>
+            <label for="jd-time">Time</label>
+            <input type="time" id="jd-time" step="1" value="12:00:00">
+          </div>
+          <div>
+            <label for="jd-tz">Timezone</label>
+            <select id="jd-tz">
+              <option value="0" selected>UTC (Universal Time)</option>
+              <option value="-10">HST (Hawaii Standard, UTC−10)</option>
+              <option value="9">JST (Japan Standard, UTC+9)</option>
+            </select>
+          </div>
         </div>
-        <div>
-          <label for="time">Time</label>
-          <input type="time" id="time" step="1" value="12:00:00">
-        </div>
-        <div>
-          <label for="tz">Timezone</label>
-          <select id="tz">
-            <option value="0" selected>UTC (Universal Time)</option>
-            <option value="-10">HST (Hawaii Standard, UTC−10)</option>
-            <option value="9">JST (Japan Standard, UTC+9)</option>
-          </select>
+        <button class="primary" id="jdCalcBtn">Calculate</button>
+        <div class="result" id="jd-result">
+          <div class="result-rows">
+            <div class="result-row">
+              <span class="result-key">Julian Day</span>
+              <span class="result-val" id="jdOut">—</span>
+            </div>
+            <div class="result-row">
+              <span class="result-key">UTC</span>
+              <span class="result-val" id="jdUtcOut" style="font-size:.85rem">—</span>
+            </div>
+          </div>
+          <p class="result-ok" id="jd-verify">✓ Matches J2000.0 epoch — verification passed</p>
         </div>
       </div>
-      <button id="calcBtn">Calculate</button>
-      <div class="result" id="result">
-        <p class="result-jd">JD &nbsp;<span id="jdOut"></span></p>
-        <p class="result-utc" id="utcOut"></p>
-        <p class="result-ok" id="verify">✓ Matches J2000.0 epoch &mdash; verification passed</p>
+    </div>
+
+    <!-- Tab: Sidereal Time -->
+    <div class="tab-panel" id="tab-lst">
+      <div class="calc">
+        <div class="grid three">
+          <div>
+            <label for="lst-date">Date</label>
+            <input type="date" id="lst-date" value="2000-01-01">
+          </div>
+          <div>
+            <label for="lst-time">Time</label>
+            <input type="time" id="lst-time" step="1" value="12:00:00">
+          </div>
+          <div>
+            <label for="lst-tz">Timezone</label>
+            <select id="lst-tz">
+              <option value="0" selected>UTC</option>
+              <option value="-10">HST (UTC−10)</option>
+              <option value="9">JST (UTC+9)</option>
+            </select>
+          </div>
+          <div>
+            <label for="lst-lon">Longitude (°)</label>
+            <input type="number" id="lst-lon" value="-155.09" step="0.01" min="-180" max="180">
+            <p class="field-hint">East = positive · West = negative</p>
+          </div>
+          <div>
+            <label for="lst-preset">Location preset</label>
+            <select id="lst-preset">
+              <option value="">— custom —</option>
+              <option value="-155.09" selected>Hilo, HI (−155.09°)</option>
+              <option value="135.52">Kyoto, JP (135.52°)</option>
+              <option value="-156.36">Maui, HI (−156.36°)</option>
+            </select>
+          </div>
+        </div>
+        <button class="primary" id="lstCalcBtn">Calculate</button>
+        <div class="result" id="lst-result">
+          <div class="result-rows">
+            <div class="result-row">
+              <span class="result-key">GMST</span>
+              <span class="result-val" id="gmstOut">—</span>
+            </div>
+            <div class="result-row">
+              <span class="result-key">LST</span>
+              <span class="result-val" id="lstOut">—</span>
+            </div>
+            <div class="result-row">
+              <span class="result-key">LST (h m s)</span>
+              <span class="result-val" id="lstHmsOut" style="font-size:.85rem">—</span>
+            </div>
+          </div>
+          <p class="result-ok" id="lst-verify">✓ GMST ≈ 280.46° for J2000.0 — verification passed</p>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- About -->
+  <!-- About: Julian Day -->
   <section>
     <h2><span class="tag">About</span> What is a Julian Day?</h2>
     <p class="explainer">
@@ -309,50 +412,47 @@
       (subject to a few century exceptions). While this system works well for everyday life,
       astronomical calculations require a continuous measure of time.
     </p>
-
     <p class="explainer">
-      To achieve this, astronomers use the <strong>Julian Day (JD)</strong>—a single,
+      To achieve this, astronomers use the <strong>Julian Day (JD)</strong> — a single,
       continuously increasing count of the number of days that have elapsed since
       <strong>January 1, 4713 BC, at 12:00 UTC</strong>. Unlike calendar dates,
       the Julian Day has no months or years, making it ideal for precise calculations.
     </p>
-
     <p class="explainer">
-      Every higher-level calculation in this tool—including
-      <strong>local sidereal time, coordinate transformations, and planetary positions</strong>—
+      Every higher-level calculation in this tool — including
+      <strong>local sidereal time, coordinate transformations, and planetary positions</strong> —
       begins by converting the selected date and time into a Julian Day.
-      A commonly used reference is
-      <code>2000 Jan 1, 12:00 UTC = JD 2451545.0</code>, known as the
+      A commonly used reference is <code>2000 Jan 1, 12:00 UTC = JD 2451545.0</code>, known as the
       <strong>J2000.0 epoch</strong>. Enter this date above to verify the calculation yourself.
     </p>
   </section>
 
-  <!-- Roadmap
+  <!-- About: Sidereal Time -->
   <section>
-    <h2><span class="tag">Roadmap</span> Development Plan</h2>
-    <ul class="roadmap">
-      <li class="done">
-        <span class="badge">✓ done</span>
-        <span><b>Step 1 — Julian Day (JD)</b>: The universal time reference. Convert any calendar date to JD.</span>
-      </li>
-      <li class="todo">
-        <span class="badge">step 2</span>
-        <span><b>Local Sidereal Time (LST)</b>: Calculate which right ascension is on the meridian at the observer's location.</span>
-      </li>
-      <li class="todo">
-        <span class="badge">step 3</span>
-        <span><b>Coordinate Transform</b>: Convert equatorial (RA/Dec) to horizontal (azimuth/altitude) coordinates.</span>
-      </li>
-      <li class="todo">
-        <span class="badge">step 4</span>
-        <span><b>Stellar Verification</b>: Compute positions of named stars and cross-check against Stellarium.</span>
-      </li>
-      <li class="todo">
-        <span class="badge">step 5</span>
-        <span><b>Planetary Positions</b>: Derive planet locations from orbital elements for full solar-system coverage.</span>
-      </li>
-    </ul>
-  </section> -->
+    <h2><span class="tag">About</span> What is Local Sidereal Time?</h2>
+    <p class="explainer">
+      While solar time tracks the Sun, <strong>sidereal time</strong> tracks the distant stars.
+      Because Earth orbits the Sun, a solar day is about 4 minutes longer than a sidereal day —
+      and it is sidereal time that tells a telescope where to look.
+    </p>
+    <p class="explainer">
+      <strong>Greenwich Mean Sidereal Time (GMST)</strong> measures how far Earth has rotated
+      relative to the stars since J2000.0. Adding the observer's longitude converts it to
+      <strong>Local Sidereal Time (LST)</strong> — the right ascension currently crossing
+      the meridian at that location. Any star whose right ascension equals the current LST
+      is, at that moment, due south and at its highest point in the sky.
+    </p>
+
+    <div class="pipeline">
+      <span class="pipe-step done">JD</span>
+      <span class="pipe-arrow">→</span>
+      <span class="pipe-step active">GMST</span>
+      <span class="pipe-arrow">→</span>
+      <span class="pipe-step active">LST</span>
+      <span class="pipe-arrow">→</span>
+      <span class="pipe-step">Az / Alt</span>
+    </div>
+  </section>
 
   <footer>
     <p>Built with C++ / HTML / CSS / JavaScript &nbsp;·&nbsp; Minami Torikoe</p>
@@ -360,28 +460,64 @@
 </main>
 
 <script>
-/* ---- Starfield ---- */
+/* ===============================================================
+   ALGORITHMS — identical to main.cpp
+   =============================================================== */
+function toJulianDay(year, month, day, hour, min, sec) {
+  if (month <= 2) { year -= 1; month += 12; }
+  const A = Math.floor(year / 100);
+  const B = 2 - A + Math.floor(A / 4);
+  const dayFrac = (hour + min / 60 + sec / 3600) / 24;
+  return Math.floor(365.25 * (year + 4716))
+       + Math.floor(30.6001 * (month + 1))
+       + day + dayFrac + B - 1524.5;
+}
+
+function toGMST(jd) {
+  const T = (jd - 2451545.0) / 36525.0;
+  let gmst = 280.46061837
+           + 360.98564736629 * (jd - 2451545.0)
+           + 0.000387933 * T * T
+           - (T * T * T) / 38710000.0;
+  return ((gmst % 360) + 360) % 360;
+}
+
+function toLST(jd, longitude) {
+  return ((toGMST(jd) + longitude) % 360 + 360) % 360;
+}
+
+function degToHms(deg) {
+  const h    = deg / 15;
+  const hrs  = Math.floor(h);
+  const m    = (h - hrs) * 60;
+  const mins = Math.floor(m);
+  const secs = ((m - mins) * 60).toFixed(1);
+  return `${String(hrs).padStart(2,'0')}h ${String(mins).padStart(2,'0')}m ${String(secs).padStart(4,'0')}s`;
+}
+
+function utcFromInput(dateVal, timeVal, tzOffset) {
+  const [y, mo, d] = dateVal.split("-").map(Number);
+  const parts = timeVal.split(":").map(Number);
+  return new Date(Date.UTC(y, mo - 1, d, parts[0] - tzOffset, parts[1], parts[2] || 0));
+}
+
+/* ===============================================================
+   STARFIELD
+   =============================================================== */
 (function () {
   const canvas = document.getElementById("starfield");
-  const ctx = canvas.getContext("2d");
-  let stars = [];
-
-  function resize() {
-    canvas.width  = window.innerWidth;
-    canvas.height = window.innerHeight;
-  }
-
+  const ctx    = canvas.getContext("2d");
+  let stars    = [];
+  function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
   function seed() {
     stars = Array.from({ length: 180 }, () => ({
-      x: Math.random(),
-      y: Math.random(),
+      x: Math.random(), y: Math.random(),
       r: Math.random() * 1.2 + 0.2,
       o: Math.random() * 0.55 + 0.2,
       twinkleSpeed: Math.random() * 0.008 + 0.002,
       phase: Math.random() * Math.PI * 2,
     }));
   }
-
   function draw(t) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     stars.forEach(s => {
@@ -393,71 +529,85 @@
     });
     requestAnimationFrame(draw);
   }
-
   resize(); seed();
   window.addEventListener("resize", resize);
-
-  const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
-  if (!mq.matches) requestAnimationFrame(draw);
-  else {
-    draw(0);
-    cancelAnimationFrame(draw);
-  }
+  if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) requestAnimationFrame(draw);
+  else draw(0);
 })();
 
-/* ---- Julian Day algorithm (identical to main.cpp) ---- */
-function toJulianDay(year, month, day, hour, min, sec) {
-  if (month <= 2) { year -= 1; month += 12; }
-  const A = Math.floor(year / 100);
-  const B = 2 - A + Math.floor(A / 4);
-  const dayFrac = (hour + min / 60 + sec / 3600) / 24;
-  return Math.floor(365.25 * (year + 4716))
-       + Math.floor(30.6001 * (month + 1))
-       + day + dayFrac + B - 1524.5;
-}
-
-/* ---- Live readout ---- */
+/* ===============================================================
+   LIVE READOUT
+   =============================================================== */
+const HILO_LON = -155.09;
 function updateLive() {
-  const n = new Date();
+  const n  = new Date();
   const jd = toJulianDay(
     n.getUTCFullYear(), n.getUTCMonth() + 1, n.getUTCDate(),
     n.getUTCHours(), n.getUTCMinutes(),
     n.getUTCSeconds() + n.getUTCMilliseconds() / 1000
   );
-  document.getElementById("liveJd").textContent = jd.toFixed(5);
+  document.getElementById("liveJd").textContent  = jd.toFixed(5);
+  document.getElementById("liveLst").textContent = degToHms(toLST(jd, HILO_LON));
 }
 updateLive();
 setInterval(updateLive, 1000);
 
-/* ---- Calculator ---- */
-document.getElementById("calcBtn").addEventListener("click", () => {
-  const dateVal = document.getElementById("date").value;
-  const timeVal = document.getElementById("time").value;
+/* ===============================================================
+   TABS
+   =============================================================== */
+document.querySelectorAll(".tab").forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+    document.querySelectorAll(".tab-panel").forEach(p => p.classList.remove("active"));
+    btn.classList.add("active");
+    document.getElementById("tab-" + btn.dataset.tab).classList.add("active");
+  });
+});
+
+/* ===============================================================
+   JULIAN DAY CALCULATOR
+   =============================================================== */
+document.getElementById("jdCalcBtn").addEventListener("click", () => {
+  const dateVal = document.getElementById("jd-date").value;
+  const timeVal = document.getElementById("jd-time").value;
   if (!dateVal || !timeVal) return;
-
-  const [y, mo, d]  = dateVal.split("-").map(Number);
-  const parts        = timeVal.split(":").map(Number);
-  const [h, mi, s]  = [parts[0], parts[1], parts[2] || 0];
-  const tzOffset     = Number(document.getElementById("tz").value);
-
-  const utcMs = Date.UTC(y, mo - 1, d, h - tzOffset, mi, s);
-  const u = new Date(utcMs);
-
-  const jd = toJulianDay(
-    u.getUTCFullYear(), u.getUTCMonth() + 1, u.getUTCDate(),
-    u.getUTCHours(), u.getUTCMinutes(), u.getUTCSeconds()
-  );
-
+  const u  = utcFromInput(dateVal, timeVal, Number(document.getElementById("jd-tz").value));
+  const jd = toJulianDay(u.getUTCFullYear(), u.getUTCMonth()+1, u.getUTCDate(),
+                         u.getUTCHours(), u.getUTCMinutes(), u.getUTCSeconds());
   const pad = n => String(n).padStart(2, "0");
-  document.getElementById("jdOut").textContent = jd.toFixed(6);
-  document.getElementById("utcOut").textContent =
-    `UTC: ${u.getUTCFullYear()}-${pad(u.getUTCMonth()+1)}-${pad(u.getUTCDate())} ` +
-    `${pad(u.getUTCHours())}:${pad(u.getUTCMinutes())}:${pad(u.getUTCSeconds())}`;
+  document.getElementById("jdOut").textContent    = jd.toFixed(6);
+  document.getElementById("jdUtcOut").textContent =
+    `${u.getUTCFullYear()}-${pad(u.getUTCMonth()+1)}-${pad(u.getUTCDate())} ` +
+    `${pad(u.getUTCHours())}:${pad(u.getUTCMinutes())}:${pad(u.getUTCSeconds())} UTC`;
+  document.getElementById("jd-verify").classList.toggle("show", Math.abs(jd - 2451545.0) < 1e-9);
+  document.getElementById("jd-result").classList.add("show");
+});
 
-  const verifyEl = document.getElementById("verify");
-  verifyEl.classList.toggle("show", Math.abs(jd - 2451545.0) < 1e-9);
+/* ===============================================================
+   LST CALCULATOR
+   =============================================================== */
+document.getElementById("lst-preset").addEventListener("change", function () {
+  if (this.value) document.getElementById("lst-lon").value = this.value;
+});
+document.getElementById("lst-lon").addEventListener("input", function () {
+  document.getElementById("lst-preset").value = "";
+});
 
-  document.getElementById("result").classList.add("show");
+document.getElementById("lstCalcBtn").addEventListener("click", () => {
+  const dateVal = document.getElementById("lst-date").value;
+  const timeVal = document.getElementById("lst-time").value;
+  if (!dateVal || !timeVal) return;
+  const lon  = parseFloat(document.getElementById("lst-lon").value);
+  const u    = utcFromInput(dateVal, timeVal, Number(document.getElementById("lst-tz").value));
+  const jd   = toJulianDay(u.getUTCFullYear(), u.getUTCMonth()+1, u.getUTCDate(),
+                            u.getUTCHours(), u.getUTCMinutes(), u.getUTCSeconds());
+  const gmst = toGMST(jd);
+  const lst  = toLST(jd, lon);
+  document.getElementById("gmstOut").textContent   = gmst.toFixed(4) + "°";
+  document.getElementById("lstOut").textContent    = lst.toFixed(4) + "°";
+  document.getElementById("lstHmsOut").textContent = degToHms(lst);
+  document.getElementById("lst-verify").classList.toggle("show", Math.abs(gmst - 280.46) < 0.01);
+  document.getElementById("lst-result").classList.add("show");
 });
 </script>
 </body>
