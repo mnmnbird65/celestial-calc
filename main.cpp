@@ -1,6 +1,7 @@
 #include <iostream>
 #include <iomanip>
 #include <cmath>
+#include <corecrt_math_defines.h>
 
 // =====================================================
 // Celestial Calc — Step 3: Altitude / Azimuth
