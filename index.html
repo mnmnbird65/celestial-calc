@@ -21,7 +21,6 @@
     --ok:        #6ddba0;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
-
   body {
     background: var(--void);
     color: var(--star);
@@ -30,12 +29,7 @@
     min-height: 100vh;
     overflow-x: hidden;
   }
-
-  #starfield {
-    position: fixed; inset: 0;
-    z-index: 0; pointer-events: none;
-  }
-
+  #starfield { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
   main {
     position: relative; z-index: 1;
     max-width: 700px;
@@ -44,249 +38,126 @@
   }
 
   /* ---- Header ---- */
-  header {
-    padding: 4rem 0 2.5rem;
-    border-bottom: 1px solid var(--border);
-  }
-  h1 {
-    font-size: clamp(2rem, 6vw, 3rem);
-    font-weight: 700;
-    letter-spacing: -.02em;
-    line-height: 1.1;
-    margin-bottom: .6rem;
-  }
-  .tagline {
-    color: var(--mist);
-    max-width: 36em;
-    font-size: .95rem;
-  }
+  header { padding: 4rem 0 2.5rem; border-bottom: 1px solid var(--border); }
+  h1 { font-size: clamp(2rem, 6vw, 3rem); font-weight: 700; letter-spacing: -.02em; line-height: 1.1; margin-bottom: .6rem; }
+  .tagline { color: var(--mist); max-width: 36em; font-size: .95rem; }
 
-  /* ---- Live readout panels ---- */
-  .readout-grid {
-    margin: 2.5rem 0;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: .75rem;
-  }
+  /* ---- Live panels ---- */
+  .readout-grid { margin: 2.5rem 0; display: grid; grid-template-columns: 1fr 1fr; gap: .75rem; }
   @media (max-width: 500px) { .readout-grid { grid-template-columns: 1fr; } }
-
   .readout {
-    background: var(--deep);
-    border: 1px solid var(--border);
-    border-left: 2px solid var(--gold);
-    border-radius: 8px;
+    background: var(--deep); border: 1px solid var(--border);
+    border-left: 2px solid var(--gold); border-radius: 8px;
     padding: 1.25rem 1.25rem 1.1rem;
   }
   .readout-label {
     font-family: "IBM Plex Mono", monospace;
     font-size: .68rem; letter-spacing: .16em;
     color: var(--mist); text-transform: uppercase;
-    display: flex; align-items: center; gap: .5rem;
-    margin-bottom: .4rem;
+    display: flex; align-items: center; gap: .5rem; margin-bottom: .4rem;
   }
   .blink {
     width: 6px; height: 6px; border-radius: 50%;
-    background: var(--gold);
-    animation: blink 2s ease-in-out infinite;
-    flex-shrink: 0;
+    background: var(--gold); animation: blink 2s ease-in-out infinite; flex-shrink: 0;
   }
   @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.15} }
   @media (prefers-reduced-motion: reduce) { .blink { animation: none; } }
   .readout-value {
     font-family: "IBM Plex Mono", monospace;
-    font-size: clamp(1.1rem, 3.5vw, 1.5rem);
-    font-weight: 500; color: var(--gold);
-    letter-spacing: .03em;
-    font-variant-numeric: tabular-nums;
-    line-height: 1.2;
+    font-size: clamp(1.1rem, 3.5vw, 1.5rem); font-weight: 500; color: var(--gold);
+    letter-spacing: .03em; font-variant-numeric: tabular-nums; line-height: 1.2;
   }
-  .readout-sub {
-    font-family: "IBM Plex Mono", monospace;
-    font-size: .7rem; color: var(--mist); margin-top: .3rem;
-  }
+  .readout-sub { font-family: "IBM Plex Mono", monospace; font-size: .7rem; color: var(--mist); margin-top: .3rem; }
 
   /* ---- Sections ---- */
   section { margin-top: 3rem; }
-  h2 {
-    font-size: 1.05rem; font-weight: 700;
-    letter-spacing: .04em;
-    margin-bottom: 1.1rem;
-    display: flex; align-items: center; gap: .7rem;
-    color: var(--star);
-  }
+  h2 { font-size: 1.05rem; font-weight: 700; letter-spacing: .04em; margin-bottom: 1.1rem; display: flex; align-items: center; gap: .7rem; color: var(--star); }
   h2 .tag {
     font-family: "IBM Plex Mono", monospace;
-    font-size: .65rem; letter-spacing: .15em;
-    color: var(--gold); text-transform: uppercase;
-    border: 1px solid var(--gold-dim);
-    padding: .15em .5em; border-radius: 3px;
+    font-size: .65rem; letter-spacing: .15em; color: var(--gold); text-transform: uppercase;
+    border: 1px solid var(--gold-dim); padding: .15em .5em; border-radius: 3px;
   }
 
   /* ---- Tabs ---- */
-  .tabs {
-    display: flex; gap: .5rem; margin-bottom: 1rem;
-  }
+  .tabs { display: flex; gap: .5rem; margin-bottom: 1rem; flex-wrap: wrap; }
   .tab {
     font-family: "IBM Plex Mono", monospace;
-    font-size: .75rem; letter-spacing: .1em;
-    padding: .35em .9em; border-radius: 4px;
-    border: 1px solid var(--border);
-    background: transparent; color: var(--mist);
-    cursor: pointer; transition: all .15s;
-    text-transform: uppercase;
+    font-size: .75rem; letter-spacing: .1em; padding: .35em .9em; border-radius: 4px;
+    border: 1px solid var(--border); background: transparent; color: var(--mist);
+    cursor: pointer; transition: all .15s; text-transform: uppercase;
   }
   .tab:hover { border-color: var(--gold-dim); color: var(--star); }
-  .tab.active {
-    background: var(--gold); color: var(--void);
-    border-color: var(--gold); font-weight: 500;
-  }
+  .tab.active { background: var(--gold); color: var(--void); border-color: var(--gold); font-weight: 500; }
   .tab-panel { display: none; }
   .tab-panel.active { display: block; }
 
   /* ---- Calculator card ---- */
-  .calc {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 1.5rem;
-  }
-  .grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: .9rem;
-  }
+  .calc { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 1.5rem; }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: .9rem; }
   @media (max-width: 460px) { .grid { grid-template-columns: 1fr; } }
   .grid.three { grid-template-columns: 1fr 1fr 1fr; }
   @media (max-width: 560px) { .grid.three { grid-template-columns: 1fr 1fr; } }
 
-  label {
-    display: block;
-    font-size: .75rem; letter-spacing: .08em;
-    color: var(--mist); text-transform: uppercase;
-    margin-bottom: .3rem;
-  }
+  label { display: block; font-size: .75rem; letter-spacing: .08em; color: var(--mist); text-transform: uppercase; margin-bottom: .3rem; }
   input, select {
-    width: 100%;
-    background: var(--deep);
-    border: 1px solid var(--border);
-    border-radius: 5px;
-    color: var(--star);
-    font-family: "IBM Plex Mono", monospace;
-    font-size: .9rem;
-    padding: .55rem .7rem;
-    transition: border-color .15s;
+    width: 100%; background: var(--deep); border: 1px solid var(--border); border-radius: 5px;
+    color: var(--star); font-family: "IBM Plex Mono", monospace; font-size: .9rem;
+    padding: .55rem .7rem; transition: border-color .15s;
   }
-  input:focus-visible, select:focus-visible, button:focus-visible {
-    outline: 2px solid var(--gold); outline-offset: 2px;
-    border-color: var(--gold);
-  }
+  input:focus-visible, select:focus-visible, button:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; border-color: var(--gold); }
   input[type="date"]::-webkit-calendar-picker-indicator,
-  input[type="time"]::-webkit-calendar-picker-indicator {
-    filter: invert(.6) sepia(1) hue-rotate(10deg) saturate(3);
-  }
-  .field-hint {
-    font-family: "IBM Plex Mono", monospace;
-    font-size: .68rem; color: var(--mist); margin-top: .25rem;
-  }
+  input[type="time"]::-webkit-calendar-picker-indicator { filter: invert(.6) sepia(1) hue-rotate(10deg) saturate(3); }
+  .field-hint { font-family: "IBM Plex Mono", monospace; font-size: .68rem; color: var(--mist); margin-top: .25rem; }
+
   button.primary {
-    margin-top: 1.1rem;
-    background: var(--gold);
-    color: var(--void);
-    border: none; border-radius: 5px;
-    font-family: "Space Grotesk", sans-serif;
-    font-weight: 700; font-size: .9rem;
-    letter-spacing: .04em;
-    padding: .65rem 1.5rem;
-    cursor: pointer;
-    transition: opacity .15s;
+    margin-top: 1.1rem; background: var(--gold); color: var(--void);
+    border: none; border-radius: 5px; font-family: "Space Grotesk", sans-serif;
+    font-weight: 700; font-size: .9rem; letter-spacing: .04em;
+    padding: .65rem 1.5rem; cursor: pointer; transition: opacity .15s;
   }
   button.primary:hover { opacity: .85; }
 
   .result {
-    margin-top: 1.1rem;
-    padding: 1rem 1.1rem;
-    background: var(--deep);
-    border: 1px solid var(--border);
-    border-left: 2px solid var(--gold);
-    border-radius: 6px;
-    display: none;
+    margin-top: 1.1rem; padding: 1rem 1.1rem; background: var(--deep);
+    border: 1px solid var(--border); border-left: 2px solid var(--gold);
+    border-radius: 6px; display: none;
   }
   .result.show { display: block; }
   .result-rows { display: flex; flex-direction: column; gap: .45rem; }
-  .result-row {
-    display: flex; justify-content: space-between;
-    align-items: baseline; gap: 1rem;
-  }
-  .result-key {
-    font-family: "IBM Plex Mono", monospace;
-    font-size: .72rem; color: var(--mist);
-    text-transform: uppercase; letter-spacing: .08em;
-    white-space: nowrap;
-  }
-  .result-val {
-    font-family: "IBM Plex Mono", monospace;
-    font-size: 1.1rem; color: var(--gold);
-    font-variant-numeric: tabular-nums; text-align: right;
-  }
-  .result-ok {
-    font-size: .78rem; color: var(--ok);
-    margin-top: .6rem; padding-top: .6rem;
-    border-top: 1px solid var(--border);
-    display: none;
-  }
+  .result-row { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; }
+  .result-key { font-family: "IBM Plex Mono", monospace; font-size: .72rem; color: var(--mist); text-transform: uppercase; letter-spacing: .08em; white-space: nowrap; }
+  .result-val { font-family: "IBM Plex Mono", monospace; font-size: 1.1rem; color: var(--gold); font-variant-numeric: tabular-nums; text-align: right; }
+  .result-ok { font-size: .78rem; color: var(--ok); margin-top: .6rem; padding-top: .6rem; border-top: 1px solid var(--border); display: none; }
   .result-ok.show { display: block; }
 
+  /* ---- Az/Alt highlight ---- */
+  .result-val.highlight { font-size: 1.3rem; color: var(--gold); }
+
   /* ---- Explainer ---- */
-  .explainer {
-    color: var(--mist); font-size: .9rem;
-    max-width: 38em; line-height: 1.75;
-    margin-bottom: 1rem;
-  }
+  .explainer { color: var(--mist); font-size: .9rem; max-width: 38em; line-height: 1.75; margin-bottom: 1rem; }
   .explainer:last-child { margin-bottom: 0; }
   .explainer strong { color: var(--star); font-weight: 500; }
-  .explainer code {
-    font-family: "IBM Plex Mono", monospace;
-    background: var(--card);
-    padding: .1em .4em; border-radius: 3px;
-    font-size: .83em; color: var(--gold);
-  }
+  .explainer code { font-family: "IBM Plex Mono", monospace; background: var(--card); padding: .1em .4em; border-radius: 3px; font-size: .83em; color: var(--gold); }
 
   /* ---- Pipeline ---- */
-  .pipeline {
-    display: flex; align-items: center;
-    flex-wrap: wrap; gap: 0;
-    margin: 1.25rem 0;
-  }
-  .pipe-step {
-    background: var(--card); border: 1px solid var(--border);
-    border-radius: 6px; padding: .5rem .85rem;
-    font-family: "IBM Plex Mono", monospace;
-    font-size: .78rem; color: var(--mist);
-  }
+  .pipeline { display: flex; align-items: center; flex-wrap: wrap; gap: 0; margin: 1.25rem 0; }
+  .pipe-step { background: var(--card); border: 1px solid var(--border); border-radius: 6px; padding: .5rem .85rem; font-family: "IBM Plex Mono", monospace; font-size: .78rem; color: var(--mist); }
   .pipe-step.done  { border-color: var(--gold-dim); color: var(--gold); }
   .pipe-step.active { background: var(--gold); color: var(--void); font-weight: 500; }
   .pipe-arrow { color: var(--border); padding: 0 .4rem; font-size: .9rem; }
 
   /* ---- Footer ---- */
-  footer {
-    margin-top: 4rem; padding-top: 1.5rem;
-    border-top: 1px solid var(--border);
-    font-family: "IBM Plex Mono", monospace;
-    font-size: .73rem; color: var(--mist);
-  }
+  footer { margin-top: 4rem; padding-top: 1.5rem; border-top: 1px solid var(--border); font-family: "IBM Plex Mono", monospace; font-size: .73rem; color: var(--mist); }
 </style>
 </head>
 <body>
-
 <canvas id="starfield" aria-hidden="true"></canvas>
-
 <main>
   <header>
     <h1>Celestial Calculation</h1>
     <p class="tagline">A time period converter for astronomical applications, allowing researchers to immediately change calendar dates to Julian Day numbers.</p>
   </header>
 
-  <!-- Live readout: JD + LST -->
   <div class="readout-grid">
     <div class="readout" aria-live="polite">
       <p class="readout-label"><span class="blink" aria-hidden="true"></span>Julian Day (UTC · live)</p>
@@ -300,16 +171,16 @@
     </div>
   </div>
 
-  <!-- Calculators -->
   <section>
     <h2><span class="tag">Calc</span> Calculators</h2>
     <div class="tabs" role="tablist">
-      <button class="tab active" role="tab" data-tab="jd">Julian Day</button>
+      <button class="tab" role="tab" data-tab="jd">Julian Day</button>
       <button class="tab" role="tab" data-tab="lst">Sidereal Time</button>
+      <button class="tab active" role="tab" data-tab="altaz">Alt / Az</button>
     </div>
 
     <!-- Tab: Julian Day -->
-    <div class="tab-panel active" id="tab-jd">
+    <div class="tab-panel" id="tab-jd">
       <div class="calc">
         <div class="grid">
           <div>
@@ -401,6 +272,81 @@
         </div>
       </div>
     </div>
+
+    <!-- Tab: Alt/Az -->
+    <div class="tab-panel active" id="tab-altaz">
+      <div class="calc">
+        <div class="grid three">
+          <div>
+            <label for="az-date">Date</label>
+            <input type="date" id="az-date" value="2000-01-01">
+          </div>
+          <div>
+            <label for="az-time">Time</label>
+            <input type="time" id="az-time" step="1" value="12:00:00">
+          </div>
+          <div>
+            <label for="az-tz">Timezone</label>
+            <select id="az-tz">
+              <option value="0" selected>UTC</option>
+              <option value="-10">HST (UTC−10)</option>
+              <option value="9">JST (UTC+9)</option>
+            </select>
+          </div>
+          <div>
+            <label for="az-ra">Right Ascension (°)</label>
+            <input type="number" id="az-ra" value="101.287" step="0.001" min="0" max="360">
+            <p class="field-hint">Sirius = 101.287°</p>
+          </div>
+          <div>
+            <label for="az-dec">Declination (°)</label>
+            <input type="number" id="az-dec" value="-16.716" step="0.001" min="-90" max="90">
+            <p class="field-hint">Sirius = −16.716°</p>
+          </div>
+          <div>
+            <label for="az-lat">Latitude (°)</label>
+            <input type="number" id="az-lat" value="19.70" step="0.01" min="-90" max="90">
+            <p class="field-hint">North = positive</p>
+          </div>
+          <div>
+            <label for="az-lon">Longitude (°)</label>
+            <input type="number" id="az-lon" value="-155.09" step="0.01" min="-180" max="180">
+            <p class="field-hint">East = positive</p>
+          </div>
+          <div>
+            <label for="az-preset">Location preset</label>
+            <select id="az-preset">
+              <option value="">— custom —</option>
+              <option value="19.70,-155.09" selected>Hilo, HI</option>
+              <option value="35.01,135.52">Kyoto, JP</option>
+              <option value="20.79,-156.36">Maui, HI</option>
+            </select>
+          </div>
+        </div>
+        <button class="primary" id="azCalcBtn">Calculate</button>
+        <div class="result" id="az-result">
+          <div class="result-rows">
+            <div class="result-row">
+              <span class="result-key">Altitude</span>
+              <span class="result-val highlight" id="altOut">—</span>
+            </div>
+            <div class="result-row">
+              <span class="result-key">Azimuth</span>
+              <span class="result-val highlight" id="azOut">—</span>
+            </div>
+            <div class="result-row">
+              <span class="result-key">Hour Angle</span>
+              <span class="result-val" id="haOut" style="font-size:.85rem">—</span>
+            </div>
+            <div class="result-row">
+              <span class="result-key">LST used</span>
+              <span class="result-val" id="lstUsedOut" style="font-size:.85rem">—</span>
+            </div>
+          </div>
+          <p class="result-ok" id="az-verify">✓ Object is above the horizon</p>
+        </div>
+      </div>
+    </div>
   </section>
 
   <!-- About: Julian Day -->
@@ -442,15 +388,31 @@
       the meridian at that location. Any star whose right ascension equals the current LST
       is, at that moment, due south and at its highest point in the sky.
     </p>
+  </section>
+
+  <!-- About: Coordinate Transform -->
+  <section>
+    <h2><span class="tag">About</span> What is Altitude / Azimuth?</h2>
+    <p class="explainer">
+      Star catalogs record positions in <strong>equatorial coordinates</strong> — right ascension (RA)
+      and declination (Dec) — which are fixed to the celestial sphere and do not depend on the observer.
+      A telescope, however, needs <strong>horizontal coordinates</strong>: altitude (angle above the horizon)
+      and azimuth (compass direction). This conversion depends on both the observer's location and the time of observation.
+    </p>
+    <p class="explainer">
+      The bridge between the two systems is the <strong>hour angle (H = LST − RA)</strong>, which measures
+      how far a celestial object has moved past the meridian. From H, the observer's latitude, and the
+      object's declination, altitude and azimuth follow directly from spherical trigonometry.
+    </p>
 
     <div class="pipeline">
       <span class="pipe-step done">JD</span>
       <span class="pipe-arrow">→</span>
-      <span class="pipe-step active">GMST</span>
+      <span class="pipe-step done">GMST</span>
       <span class="pipe-arrow">→</span>
-      <span class="pipe-step active">LST</span>
+      <span class="pipe-step done">LST</span>
       <span class="pipe-arrow">→</span>
-      <span class="pipe-step">Az / Alt</span>
+      <span class="pipe-step active">Az / Alt</span>
     </div>
   </section>
 
@@ -484,6 +446,23 @@ function toGMST(jd) {
 
 function toLST(jd, longitude) {
   return ((toGMST(jd) + longitude) % 360 + 360) % 360;
+}
+
+function toAltAz(ra, dec, lst, lat) {
+  const toRad = d => d * Math.PI / 180;
+  const toDeg = r => r * 180 / Math.PI;
+  let H = ((lst - ra) % 360 + 360) % 360;  // Hour angle (0–360°)
+  const h  = toRad(H);
+  const d  = toRad(dec);
+  const L  = toRad(lat);
+  const sinAlt = Math.sin(d) * Math.sin(L) + Math.cos(d) * Math.cos(L) * Math.cos(h);
+  const alt    = toDeg(Math.asin(sinAlt));
+  const cosAlt = Math.cos(toRad(alt));
+  let cosAz = (Math.sin(d) - Math.sin(toRad(alt)) * Math.sin(L)) / (cosAlt * Math.cos(L));
+  cosAz = Math.max(-1, Math.min(1, cosAz)); // clamp for floating point safety
+  let az = toDeg(Math.acos(cosAz));
+  if (Math.sin(h) > 0) az = 360 - az;      // correct quadrant
+  return { alt, az, H };
 }
 
 function degToHms(deg) {
@@ -524,7 +503,7 @@ function utcFromInput(dateVal, timeVal, tzOffset) {
       const opacity = s.o + Math.sin(t * s.twinkleSpeed + s.phase) * 0.15;
       ctx.beginPath();
       ctx.arc(s.x * canvas.width, s.y * canvas.height, s.r, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(200, 216, 255, ${Math.max(0, opacity)})`;
+      ctx.fillStyle = `rgba(200,216,255,${Math.max(0, opacity)})`;
       ctx.fill();
     });
     requestAnimationFrame(draw);
@@ -541,11 +520,9 @@ function utcFromInput(dateVal, timeVal, tzOffset) {
 const HILO_LON = -155.09;
 function updateLive() {
   const n  = new Date();
-  const jd = toJulianDay(
-    n.getUTCFullYear(), n.getUTCMonth() + 1, n.getUTCDate(),
-    n.getUTCHours(), n.getUTCMinutes(),
-    n.getUTCSeconds() + n.getUTCMilliseconds() / 1000
-  );
+  const jd = toJulianDay(n.getUTCFullYear(), n.getUTCMonth()+1, n.getUTCDate(),
+                         n.getUTCHours(), n.getUTCMinutes(),
+                         n.getUTCSeconds() + n.getUTCMilliseconds()/1000);
   document.getElementById("liveJd").textContent  = jd.toFixed(5);
   document.getElementById("liveLst").textContent = degToHms(toLST(jd, HILO_LON));
 }
@@ -574,7 +551,7 @@ document.getElementById("jdCalcBtn").addEventListener("click", () => {
   const u  = utcFromInput(dateVal, timeVal, Number(document.getElementById("jd-tz").value));
   const jd = toJulianDay(u.getUTCFullYear(), u.getUTCMonth()+1, u.getUTCDate(),
                          u.getUTCHours(), u.getUTCMinutes(), u.getUTCSeconds());
-  const pad = n => String(n).padStart(2, "0");
+  const pad = n => String(n).padStart(2,"0");
   document.getElementById("jdOut").textContent    = jd.toFixed(6);
   document.getElementById("jdUtcOut").textContent =
     `${u.getUTCFullYear()}-${pad(u.getUTCMonth()+1)}-${pad(u.getUTCDate())} ` +
@@ -592,7 +569,6 @@ document.getElementById("lst-preset").addEventListener("change", function () {
 document.getElementById("lst-lon").addEventListener("input", function () {
   document.getElementById("lst-preset").value = "";
 });
-
 document.getElementById("lstCalcBtn").addEventListener("click", () => {
   const dateVal = document.getElementById("lst-date").value;
   const timeVal = document.getElementById("lst-time").value;
@@ -608,6 +584,43 @@ document.getElementById("lstCalcBtn").addEventListener("click", () => {
   document.getElementById("lstHmsOut").textContent = degToHms(lst);
   document.getElementById("lst-verify").classList.toggle("show", Math.abs(gmst - 280.46) < 0.01);
   document.getElementById("lst-result").classList.add("show");
+});
+
+/* ===============================================================
+   ALT/AZ CALCULATOR
+   =============================================================== */
+document.getElementById("az-preset").addEventListener("change", function () {
+  if (!this.value) return;
+  const [lat, lon] = this.value.split(",").map(Number);
+  document.getElementById("az-lat").value = lat;
+  document.getElementById("az-lon").value = lon;
+});
+["az-lat","az-lon"].forEach(id => {
+  document.getElementById(id).addEventListener("input", () => {
+    document.getElementById("az-preset").value = "";
+  });
+});
+
+document.getElementById("azCalcBtn").addEventListener("click", () => {
+  const dateVal = document.getElementById("az-date").value;
+  const timeVal = document.getElementById("az-time").value;
+  if (!dateVal || !timeVal) return;
+  const ra  = parseFloat(document.getElementById("az-ra").value);
+  const dec = parseFloat(document.getElementById("az-dec").value);
+  const lat = parseFloat(document.getElementById("az-lat").value);
+  const lon = parseFloat(document.getElementById("az-lon").value);
+  const u   = utcFromInput(dateVal, timeVal, Number(document.getElementById("az-tz").value));
+  const jd  = toJulianDay(u.getUTCFullYear(), u.getUTCMonth()+1, u.getUTCDate(),
+                           u.getUTCHours(), u.getUTCMinutes(), u.getUTCSeconds());
+  const lst = toLST(jd, lon);
+  const { alt, az, H } = toAltAz(ra, dec, lst, lat);
+
+  document.getElementById("altOut").textContent    = alt.toFixed(4) + "°";
+  document.getElementById("azOut").textContent     = az.toFixed(4) + "°";
+  document.getElementById("haOut").textContent     = H.toFixed(4) + "°";
+  document.getElementById("lstUsedOut").textContent = degToHms(lst);
+  document.getElementById("az-verify").classList.toggle("show", alt > 0);
+  document.getElementById("az-result").classList.add("show");
 });
 </script>
 </body>
