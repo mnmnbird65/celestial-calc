@@ -255,9 +255,8 @@
 
 <main>
   <header>
-    <p class="eyebrow">Telescope Control &nbsp;·&nbsp; Step 1 of 5</p>
-    <h1>Celestial<br><span>Calc</span></h1>
-    <p class="tagline">An astronomical position calculator for telescope control systems — computing altitude and azimuth of celestial objects from date, time, and observer location. Implemented in C++ and JavaScript using identical algorithms.</p>
+    <h1>Celestial Calculation<br></h1>
+    <p class="tagline">A time period converter for astronomical applications, allowing researchers to immediately change calendar dates to Julian Day numbers.</p>
   </header>
 
   <!-- Live JD readout -->
@@ -305,12 +304,30 @@
   <section>
     <h2><span class="tag">About</span> What is a Julian Day?</h2>
     <p class="explainer">
-      Calendar systems are awkward for computation: months have different lengths, leap years shift dates, and comparing timestamps across centuries becomes messy. Astronomers sidestep this by counting time as a single continuous number &mdash; <strong>the total days elapsed since January 1, 4713 BC at 12:00 UTC</strong>. This is the Julian Day (JD).<br><br>
-      Every higher-level calculation in this tool &mdash; local sidereal time, coordinate transforms, planetary positions &mdash; starts from JD. The well-known reference point is <code>2000 Jan 1, 12:00 UTC = JD 2451545.0</code>, called the <strong>J2000.0 epoch</strong>. Enter that date above to verify.
+      The modern civil calendar is a <strong>solar calendar</strong> consisting of
+      <strong>365 days per year</strong>, with an <strong>additional leap day every four years</strong>
+      (subject to a few century exceptions). While this system works well for everyday life,
+      astronomical calculations require a continuous measure of time.
+    </p>
+
+    <p class="explainer">
+      To achieve this, astronomers use the <strong>Julian Day (JD)</strong>—a single,
+      continuously increasing count of the number of days that have elapsed since
+      <strong>January 1, 4713 BC, at 12:00 UTC</strong>. Unlike calendar dates,
+      the Julian Day has no months or years, making it ideal for precise calculations.
+    </p>
+
+    <p class="explainer">
+      Every higher-level calculation in this tool—including
+      <strong>local sidereal time, coordinate transformations, and planetary positions</strong>—
+      begins by converting the selected date and time into a Julian Day.
+      A commonly used reference is
+      <code>2000 Jan 1, 12:00 UTC = JD 2451545.0</code>, known as the
+      <strong>J2000.0 epoch</strong>. Enter this date above to verify the calculation yourself.
     </p>
   </section>
 
-  <!-- Roadmap -->
+  <!-- Roadmap
   <section>
     <h2><span class="tag">Roadmap</span> Development Plan</h2>
     <ul class="roadmap">
@@ -335,10 +352,10 @@
         <span><b>Planetary Positions</b>: Derive planet locations from orbital elements for full solar-system coverage.</span>
       </li>
     </ul>
-  </section>
+  </section> -->
 
   <footer>
-    <p>Built with C++ / HTML / CSS / JavaScript &nbsp;·&nbsp; University of Hawaiʻi at Hilo 🌋🔭</p>
+    <p>Built with C++ / HTML / CSS / JavaScript &nbsp;·&nbsp; Minami Torikoe</p>
   </footer>
 </main>
 
